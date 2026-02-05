@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IVY STARTUPS – Design 2 (Responsive)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --ivy-green: #23452A;
+      --gold: #C89A3C;
+      --dark-bg: #020617;
+      --text-light: #F9FAFB;
+      --text-muted: #9CA3AF;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    img { max-width: 100%; height: auto; display: block; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--dark-bg);
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    a { text-decoration: none; }
+
+    header {
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(2,6,23,0.96);
+      border-bottom: 1px solid rgba(148,163,184,0.35);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      color: #E5E7EB;
+    }
+    .logo-mark {
+      width: 30px; height: 30px;
+      border-radius: 999px;
+      border: 2px solid var(--gold);
+      background:
+        radial-gradient(circle at 25% 25%, rgba(200,154,60,0.8), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(35,69,42,0.9), transparent 60%);
+    }
+    nav { display: none; }
+
+    .hero {
+      max-width: 1180px;
+      margin: 30px auto 26px;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 26px;
+      align-items: center;
+    }
+    .eyebrow {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .subheadline {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .btn-primary {
+      display: inline-flex;
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(120deg, var(--gold), #FCD34D);
+      color: #111827;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 14px 30px rgba(250, 204, 21, 0.35);
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(250, 204, 21, 0.45);
+    }
+    .link-muted {
+      display: block;
+      margin-top: 8px;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+    .link-muted span { color: #E5E7EB; }
+
+    .hero-right {
+      position: relative;
+      min-height: 260px;
+      padding: 10px;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(59,130,246,0.35), transparent 60%),
+        radial-gradient(circle at 80% 70%, rgba(200,154,60,0.5), transparent 65%),
+        radial-gradient(circle at 60% 20%, rgba(45,212,191,0.3), transparent 60%),
+        linear-gradient(135deg, #020617, #0B1120);
+      overflow: hidden;
+    }
+    .hero-bg::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(148,163,184,0.18) 0, transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(148,163,184,0.12) 0, transparent 65%);
+      opacity: 0.7;
+    }
+    .node-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(200,154,60,0.4) 2px, transparent 3px),
+        radial-gradient(circle at 60% 70%, rgba(200,154,60,0.4) 2px, transparent 3px),
+        radial-gradient(circle at 80% 40%, rgba(200,154,60,0.4) 2px, transparent 3px);
+      background-size: 120px 120px;
+      mix-blend-mode: screen;
+      opacity: 0.25;
+    }
+    .card-stack {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mock-card {
+      position: absolute;
+      width: 78%;
+      max-width: 320px;
+      padding: 14px 16px 16px;
+      border-radius: 16px;
+      background: rgba(15,23,42,0.95);
+      border: 1px solid rgba(148,163,184,0.7);
+      box-shadow: 0 22px 50px rgba(15, 23, 42, 0.8);
+      color: var(--text-light);
+    }
+    .mock-card:nth-child(1) { transform: translate(-28px,-36px) rotate(-7deg); }
+    .mock-card:nth-child(2) { transform: translate(30px,4px) rotate(4deg); }
+    .mock-card:nth-child(3) { transform: translate(-4px,48px) rotate(-2deg); }
+
+    .mock-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .mock-bar {
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--gold), #22C55E);
+      margin-bottom: 8px;
+    }
+    .mock-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+    .mock-pill {
+      flex: 1;
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.75);
+    }
+    .mock-tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .mock-tag {
+      font-size: 0.7rem;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.95);
+      border: 1px solid rgba(148,163,184,0.75);
+      color: #E5E7EB;
+    }
+    .mock-footer {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+      gap: 8px;
+    }
+
+    .stats-section {
+      max-width: 1100px;
+      margin: 30px auto 26px;
+      padding: 0 16px;
+    }
+    .stats-strip {
+      background: rgba(15,23,42,0.85);
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,0.6);
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.85);
+    }
+    .stat-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      font-size: 0.82rem;
+      color: var(--text-light);
+      background: rgba(15,23,42,0.9);
+    }
+
+    .audience {
+      max-width: 1100px;
+      margin: 0 auto 40px;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .aud-card {
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.5);
+      background: radial-gradient(circle at 0% 0%, rgba(15,23,42,0.9), rgba(15,23,42,1));
+      box-shadow: 0 20px 42px rgba(15, 23, 42, 0.9);
+    }
+    .aud-photo {
+      height: 80px;
+      background-size: cover;
+      background-position: center;
+    }
+    .aud-body {
+      padding: 14px 14px 18px;
+    }
+    .aud-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .aud-card h3 {
+      font-size: 1.02rem;
+      margin-bottom: 6px;
+    }
+    .aud-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .aud-list {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-left: 14px;
+    }
+    .aud-list li { margin-bottom: 3px; }
+
+    footer {
+      padding: 14px 16px 18px;
+      border-top: 1px solid rgba(148,163,184,0.35);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: #020617;
+    }
+
+    /* Tablet and up */
+    @media (min-width: 768px) {
+      header { padding-inline: 7%; }
+      nav {
+        display: block;
+      }
+      nav a {
+        margin-left: 18px;
+        font-size: 0.92rem;
+        color: #9CA3AF;
+      }
+      nav a:hover { color: #E5E7EB; }
+
+      .hero {
+        margin-top: 40px;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); /* split layout [web:85] */
+        gap: 36px;
+      }
+      h1 { font-size: 2.35rem; }
+      .audience {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <div class="logo-mark"></div>
+    <span>IVY STARTUPS</span>
+  </div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Japan Pitch Competition</a>
+    <a href="#">Join</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <div class="eyebrow">IvyStartups Taiwan</div>
+      <h1>Where Ivy founders and capital meet in Taiwan.</h1>
+      <p class="subheadline">
+        A small, curated community of alumni-backed founders, operators, and investors building
+        global companies from Taiwan and across Asia.
+      </p>
+      <button class="btn-primary">Join the community</button>
+      <a href="#" class="link-muted">or <span>learn about the Japan Market Pitch Competition →</span></a>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-bg"></div>
+      <div class="node-lines"></div>
+      <div class="card-stack">
+        <div class="mock-card">
+          <div class="mock-title">Pipeline</div>
+          <div class="mock-bar"></div>
+          <div class="mock-row">
+            <div class="mock-pill"></div>
+            <div class="mock-pill"></div>
+          </div>
+          <div class="mock-row">
+            <div class="mock-pill"></div>
+            <div class="mock-pill"></div>
+          </div>
+          <div class="mock-footer">
+            <span>Active teams</span>
+            <span>Fintech · Deep Tech · Consumer</span>
+          </div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-title">Events</div>
+          <div class="mock-tag-row">
+            <div class="mock-tag">Founder circles</div>
+            <div class="mock-tag">Office hours</div>
+          </div>
+          <div class="mock-row">
+            <div class="mock-pill"></div>
+            <div class="mock-pill"></div>
+            <div class="mock-pill"></div>
+          </div>
+          <div class="mock-footer">
+            <span>Apr 14 · Japan pitch</span>
+            <span>Hybrid · Taipei</span>
+          </div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-title">Members</div>
+          <div class="mock-tag-row">
+            <div class="mock-tag">15+ members</div>
+            <div class="mock-tag">Taipei · Kaohsiung</div>
+          </div>
+          <div class="mock-row">
+            <div class="mock-pill"></div>
+            <div class="mock-pill"></div>
+          </div>
+          <div class="mock-footer">
+            <span>Founders · Investors · Vendors</span>
+            <span>Ivy alumni & friends</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="stats-strip">
+      <span class="stat-pill">15+ founding members</span>
+      <span class="stat-pill">Based in Taipei & Kaohsiung</span>
+      <span class="stat-pill">Founders, investors, and vendors</span>
+      <span class="stat-pill">Focus on Taiwan & Japan</span>
+    </div>
+  </section>
+
+  <section class="audience">
+    <article class="aud-card">
+      <div class="aud-photo" style="background-image:url('https://images.pexels.com/photos/3730760/pexels-photo-3730760.jpeg?auto=compress&cs=tinysrgb&w=1200');"></div>
+      <div class="aud-body">
+        <div class="aud-label">Founders</div>
+        <h3>Global-minded founders in Taiwan</h3>
+        <p>Operator-first support from peers and mentors who have built across borders.</p>
+        <ul class="aud-list">
+          <li>Deep dives on GTM, fundraising, and hiring</li>
+          <li>Warm intros to local and global investors</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="aud-card">
+      <div class="aud-photo" style="background-image:url('https://images.pexels.com/photos/1181467/pexels-photo-1181467.jpeg?auto=compress&cs=tinysrgb&w=1200');"></div>
+      <div class="aud-body">
+        <div class="aud-label">Investors</div>
+        <h3>Curated Ivy-backed dealflow</h3>
+        <p>Meet founders filtered by alumni networks and local partners.</p>
+        <ul class="aud-list">
+          <li>Sector-agnostic, early-stage focus</li>
+          <li>Context on Taiwan & Japan market entry</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="aud-card">
+      <div class="aud-photo" style="background-image:url('https://images.pexels.com/photos/1181563/pexels-photo-1181563.jpeg?auto=compress&cs=tinysrgb&w=1200');"></div>
+      <div class="aud-body">
+        <div class="aud-label">Vendors</div>
+        <h3>Long-term ecosystem partners</h3>
+        <p>Become part of the default stack for legal, finance, and product support.</p>
+        <ul class="aud-list">
+          <li>Co-host workshops and office hours</li>
+          <li>Build relationships with high-potential teams</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+</main>
+
+<footer>
+  <span>© IvyStartups Taiwan</span>
+  <span>Contact: hello@ivystartups.org</span>
+</footer>
+</body>
+</html>

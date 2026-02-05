@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IVY STARTUPS – Design 3 (Responsive)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --ivy-green: #23452A;
+      --gold: #C89A3C;
+      --bg: #FFFFFF;
+      --soft-green: #F1F5F2;
+      --text-dark: #111827;
+      --text-muted: #6B7280;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    img { max-width: 100%; height: auto; display: block; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+    a { text-decoration: none; }
+
+    header {
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--ivy-green);
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+    .logo-mark {
+      width: 30px; height: 30px;
+      border-radius: 999px;
+      border: 2px solid var(--ivy-green);
+      background:
+        radial-gradient(circle at 30% 30%, #D1E7D3, transparent 60%),
+        radial-gradient(circle at 70% 70%, #FDE9C9, transparent 60%);
+    }
+    nav { display: none; }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 30px 16px 26px;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(200,154,60,0.18), transparent 55%),
+        radial-gradient(circle at 100% 10%, rgba(35,69,42,0.16), transparent 60%),
+        radial-gradient(circle at 0% 100%, rgba(148,163,184,0.18), transparent 55%);
+      opacity: 0.85;
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .top-logo {
+      width: 62px;
+      height: 62px;
+      border-radius: 999px;
+      border: 2px solid var(--ivy-green);
+      margin: 0 auto 12px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(209,250,229,0.9), transparent 55%),
+        radial-gradient(circle at 70% 80%, rgba(254,249,195,0.9), transparent 60%);
+    }
+    .eyebrow {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.19em;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+    }
+    .subheadline {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: none;
+      background: var(--ivy-green);
+      color: #FFFFFF;
+      font-size: 0.95rem;
+      cursor: pointer;
+      box-shadow: 0 14px 32px rgba(35, 69, 42, 0.55);
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      margin-bottom: 8px;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 38px rgba(35, 69, 42, 0.65);
+    }
+    .hero-link {
+      display: block;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+    .hero-link span { color: var(--ivy-green); }
+
+    .story {
+      max-width: 900px;
+      margin: 22px auto 30px;
+      padding: 18px 18px;
+      border-radius: 20px;
+      background: var(--soft-green);
+      border: 1px solid #D1D5DB;
+    }
+    .story h2 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+      border-bottom: 2px solid rgba(200,154,60,0.7);
+      display: inline-block;
+      padding-bottom: 3px;
+    }
+    .story p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .cards {
+      max-width: 960px;
+      margin: 0 auto 36px;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    .card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      border: 1px solid #E5E7EB;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+      padding: 16px 16px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -50px;
+      left: -40px;
+      width: 120px;
+      height: 120px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(200,154,60,0.18), transparent 65%);
+      opacity: 0.8;
+    }
+    .card-header {
+      position: relative;
+      margin-bottom: 8px;
+    }
+    .card-label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .card h3 {
+      font-size: 1.02rem;
+      margin-bottom: 4px;
+    }
+    .card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .mini-list {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-left: 14px;
+    }
+    .mini-list li { margin-bottom: 4px; }
+
+    .cta-band {
+      margin-top: 10px;
+      background: var(--ivy-green);
+      color: #FFFFFF;
+      padding: 22px 16px 26px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-band::before {
+      content: "";
+      position: absolute;
+      inset: -90px -40px auto;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(250,204,21,0.25), transparent 60%),
+        radial-gradient(circle at 80% 60%, rgba(52,211,153,0.22), transparent 65%);
+      opacity: 0.8;
+    }
+    .cta-inner {
+      position: relative;
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+    }
+    .cta-inner h2 {
+      font-size: 1.3rem;
+    }
+    .cta-sub {
+      font-size: 0.92rem;
+      color: #D1FAE5;
+      max-width: 30rem;
+    }
+    .cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 6px;
+    }
+    .btn-ghost {
+      padding: 9px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(248,250,252,0.8);
+      background: rgba(15,23,42,0.15);
+      color: #F9FAFB;
+      font-size: 0.92rem;
+      cursor: pointer;
+    }
+    .btn-ghost-alt {
+      padding: 9px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(250,204,21,0.9);
+      background: rgba(250, 204, 21, 0.08);
+      color: #FEF9C3;
+      font-size: 0.92rem;
+      cursor: pointer;
+    }
+
+    footer {
+      padding: 14px 16px 18px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Tablet and up */
+    @media (min-width: 768px) {
+      header { padding-inline: 7%; }
+      nav { display: block; }
+      nav a {
+        margin-left: 18px;
+        font-size: 0.94rem;
+        color: #4B5563;
+      }
+      nav a:hover { color: var(--ivy-green); }
+
+      .hero { padding-top: 36px; }
+      h1 { font-size: 2.3rem; }
+
+      .story {
+        padding: 20px 22px;
+      }
+
+      .cards {
+        grid-template-columns: repeat(3, minmax(0, 1fr)); /* three columns on desktop [web:87] */
+        gap: 22px;
+      }
+      .card:nth-child(2) { transform: translateY(-8px); }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo-wrap">
+    <div class="logo-mark"></div>
+    <span>IVY STARTUPS</span>
+  </div>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Japan Pitch Competition</a>
+    <a href="#">Join</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <div class="top-logo"></div>
+      <div class="eyebrow">IvyStartups Taiwan</div>
+      <h1>Building the Ivy startup community we wish existed.</h1>
+      <p class="subheadline">
+        A lightweight, founder-first space for Ivy alumni, investors, and partners who want to build from Taiwan to the world.
+      </p>
+      <button class="btn-primary">Join the community</button>
+      <a href="#" class="hero-link">or <span>learn about our Japan Market Pitch Competition →</span></a>
+    </div>
+  </section>
+
+  <section class="story">
+    <h2>Why IvyStartups?</h2>
+    <p>
+      IvyStartups Taiwan began as a handful of alumni and friends meeting in coffee shops around Taipei,
+      trading notes on fundraising, hiring, and cross-border moves. We are designing the space we
+      wish we had when we first landed in Taiwan.
+    </p>
+  </section>
+
+  <section class="cards">
+    <article class="card">
+      <div class="card-header">
+        <div class="card-label">Founders</div>
+        <h3>Operator-first peer support</h3>
+      </div>
+      <p>Join small, consistent circles of founders who are navigating similar fundraising and GTM challenges.</p>
+      <ul class="mini-list">
+        <li>Peer reviews of decks and product</li>
+        <li>Warm intros to relevant investors</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <div class="card-header">
+        <div class="card-label">Investors</div>
+        <h3>Curated dealflow, less noise</h3>
+      </div>
+      <p>Spend more time with teams that share your long-term mindset and global ambitions.</p>
+      <ul class="mini-list">
+        <li>Context on Taiwan and Japan market entry</li>
+        <li>Alumni-backed, referenceable founders</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <div class="card-header">
+        <div class="card-label">Vendors</div>
+        <h3>Trusted ecosystem partners</h3>
+      </div>
+      <p>Become the default partner for legal, finance, product, or talent for our members.</p>
+      <ul class="mini-list">
+        <li>Co-host clinics and workshops</li>
+        <li>Build long-term relationships early</li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="cta-band">
+    <div class="cta-inner">
+      <h2>Ready to plug into IvyStartups?</h2>
+      <p class="cta-sub">
+        Start by joining our community, then explore the Japan Market Pitch Competition and other
+        upcoming programs as we grow.
+      </p>
+      <div class="cta-buttons">
+        <button class="btn-ghost">Join Community</button>
+        <button class="btn-ghost-alt">Apply for Japan Pitch Competition</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>© IvyStartups Taiwan</span>
+  <span>Contact: hello@ivystartups.org</span>
+</footer>
+</body>
+</html>
