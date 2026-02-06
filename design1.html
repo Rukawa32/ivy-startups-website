@@ -1,437 +1,536 @@
+<!--
+  FILE: ivy-design1-hero-final-tweaks.html
+
+  YOUR HARD RULE:
+  - NEVER include a text square / card on the RIGHT of the HERO section.
+    This file has NO hero-right card/box. Hero is text-only on background.
+
+  HOW TO TWEAK QUICKLY (search these markers):
+  - [LOGO SIZE]           -> controls logo size top-left
+  - [HERO_BG_STRENGTH]    -> makes background more/less obvious
+  - [TEXT WIDTH / WRAP]   -> controls how wide text can go before wrapping
+  - [WORD_SWITCH_MS]      -> controls word swap timing (currently 5000ms)
+
+  IMAGE SWAP:
+  - HERO background image is set in --hero-bg in :root.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>IVY STARTUPS – Design 1 (Responsive)</title>
+  <title>IvyStartups Taiwan – Design 1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
-    :root {
-      --ivy-green: #23452A;
-      --gold: #C89A3C;
-      --bg: #F5F7F9;
-      --text-dark: #111827;
-      --text-muted: #6B7280;
+    :root{
+      --ivy-green:#23452A;
+      --gold:#C89A3C;
+
+      --text:#0B1220;
+      --muted:#475569;
+
+      --border:rgba(226,232,240,0.95);
+      --shadow:0 18px 45px rgba(15,23,42,0.10);
+
+      /* HERO_BG_URL: swap this to your chosen image (must be direct image URL if possible) */
+      --hero-bg: url("https://plus.unsplash.com/premium_photo-1764510469175-820bc9f7f4af?q=80&w=1355&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+
+      /* [HERO_BG_STRENGTH]
+         Make the background image a little more obvious:
+         - Increase --bg-image-opacity slightly (e.g., 0.30 -> 0.38)
+         - Lower the whitewash (reduce --bg-wash-a / --bg-wash-b)
+      */
+      --bg-image-opacity: 0.45; /* was lighter before; adjust 0.30–0.50 */
+      --bg-brightness: 1.35;    /* higher = brighter image */
+      --bg-contrast: 1.06;      /* higher = more pop */
+      --bg-saturate: 1.15;      /* higher = more color */
+
+      --bg-wash-a: 0.62;        /* white wash strength start */
+      --bg-wash-b: 0.58;        /* white wash strength end */
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    img { max-width: 100%; height: auto; display: block; } /* responsive images [web:82] */
-    body {
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    img{display:block;max-width:100%;height:auto}
+    body{
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text-dark);
+      color: var(--text);
       line-height: 1.6;
+      background: #F8FAFC;
     }
-    a { text-decoration: none; }
+    a{text-decoration:none}
 
-    /* Mobile-first header */
-    header {
-      background: #FFFFFF;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #E5E7EB;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+    /* ===== HEADER ===== */
+    header{
+      position:fixed;
+      inset-inline:0;
+      top:0;
+      z-index:50;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 16px;
+      background: rgba(235,239,243,0.96);
+      border-bottom: 1px solid rgba(226,232,240,0.9);
+      backdrop-filter: blur(14px);
     }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:800;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      font-size:0.90rem;
       color: var(--ivy-green);
-      text-transform: uppercase;
-      font-size: 0.8rem;
     }
-    .logo-mark {
-      width: 30px; height: 30px;
-      border-radius: 999px;
-      border: 2px solid var(--ivy-green);
-      background: radial-gradient(circle at 30% 30%, #CFE7D6, transparent 55%);
-    }
-    nav { display: none; } /* hidden on mobile */
 
-    .hero-shell {
-      max-width: 1120px;
-      margin: 28px auto 24px;
-      padding: 0 16px;
+    .brand img{
+      /* [LOGO SIZE]
+         This is the logo size (top-left).
+         Increase/decrease these two values to change how big it looks.
+      */
+      width: 66px;  /* <- change me */
+      height: 66px; /* <- change me */
+
+      border-radius: 20px;
+      background:#FFFFFF;
+      padding: 4px;
+      object-fit: cover;
+      border: 1px solid rgba(226,232,240,0.95);
+      box-shadow: 0 12px 26px rgba(15,23,42,0.10);
     }
-    .hero-card {
-      background: radial-gradient(circle at 0% 0%, #FFFFFF, #F3F5F7 55%, #EDF1F3);
-      border-radius: 24px;
-      box-shadow:
-        0 18px 40px rgba(15, 23, 42, 0.12),
-        0 0 0 1px rgba(148, 163, 184, 0.3);
-      padding: 22px 18px 20px;
-      display: grid;
-      grid-template-columns: 1fr; /* single column on mobile [web:82] */
-      gap: 22px;
-      align-items: center;
+
+    nav{display:none}
+    @media (min-width: 900px){
+      header{padding-inline:7%}
+      nav{display:flex;gap:18px}
+      nav a{color:#334155;font-size:0.98rem}
+      nav a:hover{color:var(--ivy-green)}
     }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
+
+    /* ===== HERO (FULL PAGE BG IMAGE) ===== */
+    .hero{
+      position:relative;
+      min-height:100vh;
+      padding: 132px 16px 70px; /* room for larger header/logo */
+      display:flex;
+      align-items:center;
+      overflow:hidden;
+      isolation:isolate;
+    }
+
+    /* Full-bleed background photo */
+    .hero::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-4;
+      background-image: var(--hero-bg);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transform: scale(1.04);
+
+      /* image "pop" */
+      filter:
+        brightness(var(--bg-brightness))
+        contrast(var(--bg-contrast))
+        saturate(var(--bg-saturate));
+
+      opacity: var(--bg-image-opacity);
+    }
+
+    /* Light overlay to keep page airy */
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:-3;
+      background:
+        linear-gradient(
+          120deg,
+          rgba(253,247,242,var(--bg-wash-a)),
+          rgba(237,245,255,var(--bg-wash-b))
+        ),
+        radial-gradient(circle at 18% 30%, rgba(200,154,60,0.20), transparent 60%),
+        radial-gradient(circle at 78% 25%, rgba(35,69,42,0.10), transparent 62%);
+      pointer-events:none;
+    }
+
+    /* Lines/layers */
+    .hero-lines{
+      position:absolute;
+      inset: 140px 6% 70px;
+      border-radius: 34px;
+      border: 1px dashed rgba(148,163,184,0.45);
+      z-index:-2;
+      pointer-events:none;
+      opacity:0.75;
+    }
+    .hero-lines::before{
+      content:"";
+      position:absolute;
+      inset: 0;
+      border-radius: 34px;
+      background-image:
+        linear-gradient(to right, rgba(148,163,184,0.14) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148,163,184,0.10) 1px, transparent 1px);
+      background-size: 90px 90px;
+      mask-image: radial-gradient(circle at 28% 28%, black 0, black 52%, transparent 80%);
+      opacity: 0.95;
+    }
+
+    .hero-inner{
+      width:100%;
+      max-width:1200px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 900px){
+      .hero-inner{padding-inline:7%}
+    }
+
+    /* [TEXT WIDTH / WRAP]
+       Increase these max-width values to reduce wrapping on wide screens.
+       Mobile is handled by media queries below.
+    */
+    .eyebrow{
+      font-size:0.84rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:0.28em;
+      color:rgba(200,154,60,0.92);
+      margin-bottom:10px;
+      text-shadow: 0 2px 16px rgba(255,255,255,0.85);
+      max-width: 100ch; /* <- change me if you want */
+    }
+
+    .title{
+      font-size: 3.2rem;
+      line-height: 1.06;
+      margin-bottom: 12px;
+      color: #0B1220;
+
+      /* allow a wider line before wrapping */
+      max-width: 34ch; /* <- change me if you want less wrap */
+
+      text-shadow:
+        0 1px 0 rgba(255,255,255,0.85),
+        0 10px 30px rgba(15,23,42,0.18);
+    }
+
+    .title-underline{
+      height: 3px;
+      width: min(520px, 92vw);
       border-radius: 999px;
-      font-size: 0.72rem;
-      background: rgba(35, 69, 42, 0.06);
+      background: linear-gradient(90deg, rgba(200,154,60,0.85), rgba(35,69,42,0.85), rgba(96,165,250,0.55));
+      opacity: 0.75;
+      margin: 10px 0 14px;
+      background-size: 200% 100%;
+      animation: shimmer 8s ease-in-out infinite;
+    }
+    @keyframes shimmer{
+      0%,100%{ background-position: 0% 50%; }
+      50%{ background-position: 100% 50%; }
+    }
+
+    .dynamic-word{
       color: var(--ivy-green);
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
+      display:inline-block;
+      transition: opacity 0.25s ease;
+      position: relative;
+    }
+    .dynamic-word::before{
+      content:"";
+      position:absolute;
+      left:-0.15em;
+      right:-0.15em;
+      bottom:0.05em;
+      height:0.55em;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.72);
+      z-index:-1;
+    }
+
+    .sub{
+      font-size: 1.10rem;
+      color: #334155;
+
+      /* wider before wrapping */
+      max-width: 92ch; /* <- change me */
+
       margin-bottom: 10px;
+      text-shadow: 0 2px 18px rgba(255,255,255,0.80);
     }
-    .pill-dot {
-      width: 6px; height: 6px;
-      border-radius: 999px;
-      background: var(--gold);
+    .note{
+      font-size: 0.98rem;
+      color: #475569;
+
+      /* wider before wrapping */
+      max-width: 100ch; /* <- change me */
+
+      text-shadow: 0 2px 18px rgba(255,255,255,0.78);
     }
-    h1 {
-      font-size: 1.6rem;
-      margin-bottom: 8px;
+
+    /* Mobile safety */
+    @media (max-width: 899px){
+      .hero{padding-top:132px}
+      .brand img{
+        /* mobile logo size */
+        width: 70px;
+        height: 70px;
+        border-radius: 24px;
+        padding: 10px;
+      }
+      .title{
+        font-size: 2.35rem;
+        max-width: 26ch;
+      }
+      .title-underline{width: min(320px, 86vw)}
+      .sub, .note{max-width: 60ch}
     }
-    .subheadline {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      margin-bottom: 18px;
-    }
-    .hero-buttons {
+
+    /* Center container for hero button */
+    .hero-actions{
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-items: stretch;
-      margin-bottom: 10px;
+      justify-content: center; /* centers horizontally in a flex row [web:200] */
+      margin-top: 18px;
     }
-    .btn {
-      border-radius: 999px;
-      padding: 10px 18px;
-      font-size: 0.95rem;
-      border: 1px solid transparent;
-      cursor: pointer;
+
+    /* Yellow button style */
+    .btn-japan{
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease, color 0.1s ease;
-    }
-    .btn-primary {
-      background: var(--ivy-green);
-      color: #FFFFFF;
-      box-shadow: 0 12px 26px rgba(35, 69, 42, 0.45);
-    }
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 16px 32px rgba(35, 69, 42, 0.55);
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--gold);
-      border-color: var(--gold);
-    }
-    .btn-outline:hover {
-      background: var(--gold);
-      color: #FFFFFF;
-    }
-    .microcopy {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+      padding: 12px 22px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, #FACC15, #FDE68A);
+      color: #111827;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      border: 1px solid rgba(250, 204, 21, 0.55);
+      box-shadow: 0 18px 40px rgba(250, 204, 21, 0.30);
+      transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
     }
 
-    .hero-media-wrap {
-      position: relative;
-      min-height: 200px;
-    }
-    .hero-photo-card {
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.5);
-      border: 1px solid rgba(200, 154, 60, 0.5);
-    }
-    .hero-chip {
-      position: absolute;
-      bottom: 12px;
-      left: 12px;
-      background: rgba(255,255,255,0.92);
-      border-radius: 999px;
-      padding: 5px 11px;
-      font-size: 0.78rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.2);
-      white-space: nowrap;
-    }
-    .hero-chip + .hero-chip {
-      left: auto;
-      right: 12px;
-    }
-    .chip-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: var(--ivy-green);
+    .btn-japan:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 26px 55px rgba(250, 204, 21, 0.38);
+      filter: saturate(1.05);
     }
 
-    .features {
-      max-width: 1120px;
-      margin: 0 auto 30px;
-      padding: 0 16px;
-      display: grid;
+    /* ===== TILES BELOW HERO ===== */
+    .tiles{
+      position:relative;
+      padding: 36px 16px 52px;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(200,154,60,0.10), transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(35,69,42,0.06), transparent 60%),
+        linear-gradient(120deg, #FDF7F2, #EDF5F7);
+      border-top: 1px solid rgba(226,232,240,0.9);
+      overflow:hidden;
+    }
+    .tiles-inner{
+      max-width:1200px;
+      margin:0 auto;
+    }
+    @media (min-width: 900px){
+      .tiles-inner{padding-inline:7%}
+    }
+
+    .tiles-title{
+      font-size:0.92rem;
+      text-transform:uppercase;
+      letter-spacing:0.22em;
+      color:var(--gold);
+      margin-bottom:8px;
+      max-width: 120ch;
+    }
+    .tiles-sub{
+      font-size:1.65rem;
+      margin-bottom:18px;
+      color:#0B1220;
+
+      /* reduce wrapping on desktop */
+      max-width: 80ch;
+    }
+
+    .grid{
+      display:grid;
       grid-template-columns: 1fr;
       gap: 18px;
+      align-items: stretch;
     }
-    .feature-card {
-      background: #FFFFFF;
-      border-radius: 18px;
-      box-shadow: 0 16px 34px rgba(15, 23, 42, 0.06);
-      border: 1px solid #E5E7EB;
-      padding: 16px 16px 18px;
-      position: relative;
-    }
-    .feature-strip {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--ivy-green);
-    }
-    .feature-strip.gold { background: var(--gold); }
-    .feature-strip.teal { background: #0D9488; }
-    .feature-label {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--gold);
-      margin-top: 8px;
-      margin-bottom: 6px;
-    }
-    .feature-card h3 {
-      font-size: 1.02rem;
-      margin-bottom: 6px;
-    }
-    .feature-card p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-    .feature-card ul {
-      margin-left: 16px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-    }
-    .feature-card li { margin-bottom: 4px; }
-
-    .timeline {
-      max-width: 1120px;
-      margin: 0 auto 40px;
-      padding: 0 16px;
-    }
-    .timeline-inner {
-      background: #FFFFFF;
-      border-radius: 18px;
-      padding: 16px 16px 18px;
-      border: 1px solid #E5E7EB;
-      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.06);
-    }
-    .timeline-title {
-      font-size: 1.02rem;
-      margin-bottom: 12px;
-    }
-    .timeline-track {
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-    }
-    .timeline-track::before {
-      content: "";
-      position: absolute;
-      top: 16px;
-      left: 5%;
-      right: 5%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--gold), var(--ivy-green));
-      opacity: 0.4;
-    }
-    .timeline-step {
-      position: relative;
-      text-align: center;
-      padding-top: 18px;
-    }
-    .step-dot {
-      position: absolute;
-      top: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 14px;
-      height: 14px;
-      border-radius: 999px;
-      border: 2px solid var(--gold);
-      background: #FFFFFF;
-    }
-    .timeline-step h4 {
-      font-size: 0.9rem;
-      margin-bottom: 3px;
-    }
-    .timeline-step p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    @media (min-width: 900px){
+      .grid{grid-template-columns: repeat(3, minmax(0,1fr)); gap: 22px}
     }
 
-    footer {
-      background: #FFFFFF;
-      border-top: 1px solid #E5E7EB;
-      padding: 14px 16px 18px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
+    .tile{
+      background:#FFFFFF;
+      border:1px solid var(--border);
+      border-radius:20px;
+      box-shadow: var(--shadow);
+      padding: 16px 18px 18px;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+      will-change: transform;
+      position:relative;
+      overflow:hidden;
+    }
+    .tile::before{
+      content:"";
+      position:absolute;
+      width:170px;
+      height:170px;
+      border-radius:999px;
+      top:-85px;
+      right:-85px;
+      background: radial-gradient(circle, rgba(200,154,60,0.18), transparent 65%);
+      pointer-events:none;
+    }
+    .tile:hover{
+      transform: translateY(-7px);
+      box-shadow: 0 28px 70px rgba(15,23,42,0.14);
     }
 
-    /* Tablet and up */
-    @media (min-width: 768px) {
-      header { padding-inline: 7%; }
-      nav { display: block; }
-      nav a {
-        margin-left: 20px;
-        color: #4B5563;
-        font-size: 0.95rem;
-      }
-      nav a:hover { color: var(--ivy-green); }
+    .float-1{ animation: floaty 9.5s ease-in-out infinite; }
+    .float-2{ animation: floaty 10.7s ease-in-out infinite; animation-delay: 0.8s; }
+    .float-3{ animation: floaty 12.1s ease-in-out infinite; animation-delay: 1.4s; }
+    @keyframes floaty{
+      0%,100%{ transform: translateY(0px); }
+      50%{ transform: translateY(-11px); }
+    }
 
-      .hero-shell { margin-top: 40px; }
-      .hero-card {
-        padding: 28px 26px;
-        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); /* split layout on larger screens [web:85] */
-      }
-      h1 { font-size: 2.2rem; }
-      .hero-buttons {
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start;
-      }
-      .features {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 22px;
-      }
+    .label{
+      font-size:0.78rem;
+      text-transform:uppercase;
+      letter-spacing:0.18em;
+      color:var(--gold);
+      margin-bottom:6px;
+    }
+    .t{
+      font-weight:850;
+      margin-bottom:6px;
+      color:#0B1220;
+      font-size:1.05rem;
+
+      /* reduce wrapping if you want */
+      max-width: 60ch;
+    }
+    .tile p{
+      color:#64748B;
+      font-size:0.95rem;
+
+      /* reduce wrapping on desktop */
+      max-width: 90ch;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .float-1,.float-2,.float-3{ animation:none; }
+      .title-underline{ animation:none; }
+      .tile{ transition:none; }
     }
   </style>
 </head>
+
 <body>
 <header>
-  <div class="logo">
-    <div class="logo-mark"></div>
+  <div class="brand">
+    <!-- LOGO URL (hosted) -->
+    <img src="Logo.jpeg" alt="IvyStartups logo" />
     <span>IVY STARTUPS</span>
   </div>
   <nav>
-    <a href="#">Home</a>
-    <a href="#">Japan Pitch Competition</a>
-    <a href="#">Join</a>
+    <a href="#hero">Home</a>
+    <a href="#tiles">Japan Competition</a>
   </nav>
 </header>
 
 <main>
-  <section class="hero-shell">
-    <div class="hero-card">
-      <div>
-        <div class="pill">
-          <span class="pill-dot"></span>
-          <span>IvyStartups Taiwan · Alumni-led community</span>
-        </div>
-        <h1>Connecting Ivy founders, investors, and partners in Taiwan.</h1>
-        <p class="subheadline">
-          A curated community helping global-minded teams turn ideas into venture-scale companies,
-          starting from Taipei and Kaohsiung.
-        </p>
-        <div class="hero-buttons">
-          <a href="#" class="btn btn-primary">Join the community</a>
-          <a href="#" class="btn btn-outline">View Japan Pitch Competition</a>
-        </div>
-        <div class="microcopy">
-          Early-stage, Taiwan-based founders welcome. No membership fees during our pilot phase.
-        </div>
-      </div>
+  <section class="hero" id="hero">
+    <div class="hero-lines"></div>
 
-      <div class="hero-media-wrap">
-        <div class="hero-photo-card">
-          <img src="https://images.pexels.com/photos/1181562/pexels-photo-1181562.jpeg?auto=compress&cs=tinysrgb&w=1200"
-               alt="Startup team collaboration" />
-          <div class="hero-chip">
-            <div class="chip-dot"></div>
-            <span>15+ founding members</span>
-          </div>
-          <div class="hero-chip">
-            <div class="chip-dot"></div>
-            <span>Taipei · Kaohsiung</span>
-          </div>
-        </div>
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">IVYSTARTUPS TAIWAN</div>
+
+        <!-- HERO TITLE -->
+        <h1 class="title">
+          A home for <span class="dynamic-word" id="dynamic-word">founders</span> in Taiwan.
+        </h1>
+
+        <div class="title-underline"></div>
+
+        <p class="sub">
+          IvyStartups Taiwan is a grassroots community connecting Ivy alumni and friends across
+          founders, investors, and partners—built for global ambition and local execution.
+        </p>
+
+        <p class="note">
+          Branding-first, not sales-first. We exist to explain who we are and what we care about.
+        </p>
+      </div>
+      <!-- HERO BUTTON (centered) -->
+      <div class="hero-actions">
+        <a class="btn-japan" href="#japan">Japan Competition</a>
       </div>
     </div>
   </section>
 
-  <section class="features">
-    <article class="feature-card">
-      <div class="feature-strip"></div>
-      <div class="feature-label">For founders</div>
-      <h3>Build with global peer support</h3>
-      <p>Join small, consistent circles of founders who have shipped products across the US, Japan, and Asia.</p>
-      <ul>
-        <li>Warm introductions to mentors and investors</li>
-        <li>Operator-first feedback on product and GTM</li>
-      </ul>
-    </article>
+  <section class="tiles" id="tiles">
+    <div class="tiles-inner">
+      <div class="tiles-title">Who we serve</div>
+      <div class="tiles-sub">Three groups, one community—connected by trust and momentum.</div>
 
-    <article class="feature-card">
-      <div class="feature-strip gold"></div>
-      <div class="feature-label">For investors</div>
-      <h3>Curated Ivy-backed dealflow</h3>
-      <p>Meet teams vetted through alumni networks and local partners focused on Taiwan.</p>
-      <ul>
-        <li>Sector-agnostic, early-stage focus</li>
-        <li>Local context with global ambition</li>
-      </ul>
-    </article>
+      <div class="grid">
+        <article class="tile float-1">
+          <div class="label">Founders</div>
+          <div class="t">Global-minded teams in Taiwan</div>
+          <p>
+            Find peers building from Taipei and beyond, share product and GTM lessons, and meet
+            partners who understand cross‑border startup needs.
+          </p>
+        </article>
 
-    <article class="feature-card">
-      <div class="feature-strip teal"></div>
-      <div class="feature-label">For vendors</div>
-      <h3>Long-term ecosystem partners</h3>
-      <p>Become the default legal, finance, or product partner for emerging companies.</p>
-      <ul>
-        <li>Introduce structured startup playbooks</li>
-        <li>Collaborate on workshops and clinics</li>
-      </ul>
-    </article>
-  </section>
+        <article class="tile float-2">
+          <div class="label">Investors</div>
+          <div class="t">Early access to Ivy-linked talent</div>
+          <p>
+            Discover promising teams through a trusted network, with context on traction, talent,
+            and expansion paths across Taiwan, Japan, and global markets.
+          </p>
+        </article>
 
-  <section class="timeline">
-    <div class="timeline-inner">
-      <div class="timeline-title">How IvyStartups helps you grow</div>
-      <div class="timeline-track">
-        <div class="timeline-step">
-          <div class="step-dot"></div>
-          <h4>Connect</h4>
-          <p>Meet aligned founders, investors, and partners.</p>
-        </div>
-        <div class="timeline-step">
-          <div class="step-dot"></div>
-          <h4>Collaborate</h4>
-          <p>Share tactics, intros, and resources.</p>
-        </div>
-        <div class="timeline-step">
-          <div class="step-dot"></div>
-          <h4>Go global</h4>
-          <p>Use Taiwan as a base to expand into Japan and beyond.</p>
-        </div>
+        <article class="tile float-3">
+          <div class="label">Partners</div>
+          <div class="t">A startup-ready service ecosystem</div>
+          <p>
+            Work with teams that value speed and clarity—across legal, accounting, recruiting,
+            design, and marketing—starting early and growing together.
+          </p>
+        </article>
       </div>
     </div>
   </section>
 </main>
 
-<footer>
-  <span>© IvyStartups Taiwan</span>
-  <span>Contact: hello@ivystartups.org</span>
-</footer>
+<script>
+  // [WORD_SWITCH_MS]
+  // Change 5000 to any number of milliseconds you want (e.g., 8000 = 8 seconds).
+  const WORD_SWITCH_MS = 5000;
+
+  const words = ["founders", "investors", "operators", "builders"];
+  const el = document.getElementById("dynamic-word");
+  let i = 0;
+
+  setInterval(() => {
+    i = (i + 1) % words.length;
+    el.style.opacity = "0";
+    setTimeout(() => {
+      el.textContent = words[i];
+      el.style.opacity = "1";
+    }, 250);
+  }, WORD_SWITCH_MS);
+</script>
 </body>
 </html>
