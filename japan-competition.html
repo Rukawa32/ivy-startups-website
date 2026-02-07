@@ -1,0 +1,381 @@
+<!--
+  FILE: japan-competition.html  (STEP 1)
+  PURPOSE: Japan Competition page (UI only for now).
+  BACKEND: points to /api/apply.php (shell comes in Step 3)
+
+  EDIT MAP (search these tags):
+  - [DATES]            Update important dates here
+  - [FORM ENDPOINT]    Where the form submits
+  - [FIELD TEXT]       Labels/help text
+  - [MAX PDF SIZE]     Client-side file size check (server-side later)
+
+  NOTE: Client-side size checks help UX but do NOT override PHP server limits. [web:267]
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Japan Market Pitch Competition – IvyStartups Taiwan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root{
+      --ivy-green:#23452A;
+      --gold:#C89A3C;
+      --text:#0B1220;
+      --muted:#475569;
+      --border:rgba(226,232,240,0.95);
+      --shadow:0 18px 45px rgba(15,23,42,0.10);
+      --page-bg: linear-gradient(120deg, #FDF7F2, #EDF5F7);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+      background: var(--page-bg);
+    }
+    a{text-decoration:none}
+
+    /* ===== HEADER (copied from design1.html) ===== */
+    header{
+    position:fixed;
+    inset-inline:0;
+    top:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 16px;
+    background: rgba(210,218,226,0.96);
+    border-bottom: 1px solid rgba(226,232,240,0.9);
+    backdrop-filter: blur(14px);
+    }
+
+    .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-weight:800;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    font-size:0.90rem;
+    color: var(--ivy-green);
+    }
+
+    .brand img{
+    /* LOGO SIZE (from your file) */
+    width: 66px;
+    height: 66px;
+    border-radius: 20px;
+    background:#FFFFFF;
+    padding: 4px;
+    object-fit: cover;
+    border: 1px solid rgba(226,232,240,0.95);
+    box-shadow: 0 12px 26px rgba(15,23,42,0.10);
+    }
+
+    nav{display:none;}
+
+    @media (min-width: 900px){
+    header{padding-inline:7%;}
+    nav{display:flex;gap:18px;}
+    nav a{color:#334155;font-size:0.98rem;}
+    nav a:hover{color:var(--ivy-green);}
+    }
+
+    main{padding-top: 120px;}
+    .wrap{max-width:1200px;margin:0 auto;padding: 0 16px;}
+    @media (min-width: 900px){ .wrap{padding:0 7%;} }
+
+    .hero{
+      border: 1px dashed rgba(148,163,184,0.45);
+      border-radius: 30px;
+      padding: 26px 22px;
+      background: rgba(255,255,255,0.64);
+      box-shadow: var(--shadow);
+    }
+    .eyebrow{
+      font-size:0.84rem;
+      text-transform:uppercase;
+      letter-spacing:0.28em;
+      color:#8A6A1D;
+      font-weight:800;
+      margin-bottom:10px;
+    }
+    h1{font-size:2.4rem;line-height:1.1;margin-bottom:10px;}
+    .sub{color:var(--muted);font-size:1.05rem;max-width: 110ch;}
+
+    .meta{
+      margin-top: 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      color:#334155;
+      font-size:0.95rem;
+    }
+    .pill{
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(226,232,240,0.95);
+      border-radius: 999px;
+      padding: 6px 10px;
+    }
+
+    .grid{
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    @media (min-width: 980px){
+      .grid{grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);}
+    }
+
+    .card{
+      background:#FFFFFF;
+      border:1px solid var(--border);
+      border-radius:20px;
+      box-shadow: var(--shadow);
+      padding: 16px 18px 18px;
+    }
+    .card h2{font-size:1.1rem;margin-bottom:8px;}
+    .card p, .card li{color:#64748B;}
+    ul{margin-left: 18px;}
+
+    form{display:grid;gap: 12px;}
+    .row{display:grid;gap:10px;}
+    @media (min-width: 820px){
+      .row.two{grid-template-columns: 1fr 1fr;}
+    }
+    label{
+      display:block;
+      font-size: 0.86rem;
+      font-weight: 500;
+      color:#0B1220;
+      margin-bottom: 6px;
+    }
+    input, textarea, select{
+      width:100%;
+      padding: 11px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(226,232,240,0.95);
+      background: #FFFFFF;
+      font-size: 0.95rem;
+      outline: none;
+    }
+    input:focus, textarea:focus, select:focus{
+      border-color: rgba(35,69,42,0.45);
+      box-shadow: 0 0 0 4px rgba(35,69,42,0.10);
+    }
+    textarea{min-height: 110px; resize: vertical;}
+    .help{font-size: 0.84rem; color:#64748B; margin-top: 6px;}
+    .hp{display:none !important;}
+
+    .consent{
+      display:flex; gap:10px; align-items:flex-start;
+      font-size: 0.92rem; color:#475569;
+    }
+    .consent input{width:auto; margin-top: 3px;}
+
+    .actions{display:flex;justify-content:center;padding-top: 6px;}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding: 12px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(250, 204, 21, 0.55);
+      background: linear-gradient(120deg, #FACC15, #FDE68A);
+      color:#111827;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      cursor:pointer;
+      box-shadow: 0 18px 40px rgba(250,204,21,0.30);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+    .btn:hover{transform: translateY(-2px); box-shadow: 0 26px 55px rgba(250,204,21,0.38);}
+
+    .status{
+      text-align:center;
+      margin-top: 10px;
+      font-size: 0.92rem;
+      color:#64748B;
+      min-height: 1.4em;
+    }
+    .err{color:#B42318;}
+    .ok{color:#1A7F37;}
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="brand">
+    <img src="Logo.jpeg" alt="IvyStartups logo" />
+    <span>IVY STARTUPS</span>
+  </div>
+  <nav>
+    <a href="design1.html">Home</a>
+    <a href="japan-competition.html">Japan Competition</a>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Japan Market Pitch Competition</div>
+      <h1>Apply to pitch for your Japan expansion.</h1>
+      <p class="sub">
+        We’re selecting 10 Taiwan-based startups to pitch live, with 3 winning teams and a bootcamp pathway.
+      </p>
+
+      <!-- [DATES] edit these pills -->
+      <div class="meta">
+        <div class="pill">Apply: Feb 15 – Mar 15, 2026</div>
+        <div class="pill">Results: Apr 1, 2026</div>
+        <div class="pill">Pitch Day: Apr 14, 2026</div>
+      </div>
+
+      <p class="help" style="margin-top:10px;">
+        Required: pitch deck PDF (max 15 slides), company registration info, 2-minute video pitch link, founders’ LinkedIn profiles. <!-- [FIELD TEXT] --> 
+      </p>
+    </section>
+
+    <section class="grid" id="apply">
+      <div class="card">
+        <h2>What to submit</h2>
+        <ul>
+          <li>Pitch deck PDF (max 15 slides) (upload and/or share link)</li>
+          <li>Company registration information</li>
+          <li>2-minute video pitch link</li>
+          <li>Founders’ LinkedIn profiles</li>
+        </ul>
+
+        <h2 style="margin-top:14px;">Eligibility (summary)</h2>
+        <ul>
+          <li>Company incorporated in Taiwan for less than 5 years</li>
+          <li>All industries welcome; Japan expansion interest</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Application form</h2>
+            
+        <!-- [FORM ENDPOINT] We'll implement api/apply.php in Step 3 -->
+        <form id="appForm" action="api/apply.php" method="POST" enctype="multipart/form-data">
+
+          <!-- Honeypot anti-spam -->
+          <div class="hp">
+            <label>Do not fill this</label>
+            <input name="website_confirm" />
+          </div>
+
+          <div class="row two">
+            <div>
+              <label>Team name</label>
+              <input name="team_name" required />
+            </div>
+            <div>
+              <label>Company name</label>
+              <input name="company_name" required />
+            </div>
+          </div>
+
+          <div class="row two">
+            <div>
+              <label>Contact name</label>
+              <input name="contact_name" required />
+            </div>
+            <div>
+              <label>Contact email</label>
+              <input name="contact_email" type="email" required />
+            </div>
+          </div>
+
+          <div class="row two">
+            <div>
+              <label>Incorporated in Taiwan?</label>
+              <select name="incorporated_in_taiwan" required>
+                <option value="" selected disabled>Select…</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div>
+              <label>Company age (years)</label>
+              <input name="company_age_years" type="number" min="0" max="50" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Founder LinkedIn URLs (comma-separated)</label>
+              <input name="founder_linkedin_urls" placeholder="https://linkedin.com/in/..." required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Pitch deck PDF share link</label>
+              <input name="deck_pdf_url" type="url" placeholder="https://drive.google.com/..." required />
+              <div class="help">Provide at least one: upload OR share link.</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>2-minute video pitch link</label>
+              <input name="video_pitch_url" type="url" required />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Company registration information</label>
+              <textarea name="registration_info" required placeholder="Registration number, incorporation date, address, etc."></textarea>
+            </div>
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" name="consent" value="yes" required />
+            I confirm the information is accurate and I agree to be contacted about the competition.
+          </label>
+
+          <div class="actions">
+            <button class="btn" type="submit">Submit application</button>
+          </div>
+
+          <div id="status" class="status"></div>
+        </form>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+  // [MAX PDF SIZE] client-side guard (100MB)
+  // Server-side validation comes later in Step 4.
+  const MAX_PDF_BYTES = 100 * 1024 * 1024;
+  const fileInput = document.getElementById('deck_pdf_file');
+  const statusEl = document.getElementById('status');
+
+  fileInput.addEventListener('change', () => {
+    statusEl.textContent = "";
+    statusEl.className = "status";
+    const f = fileInput.files && fileInput.files[0];
+    if (!f) return;
+
+    if (f.size > MAX_PDF_BYTES) {
+      statusEl.textContent = "PDF is too large. Max allowed is 100MB.";
+      statusEl.className = "status err";
+      fileInput.value = "";
+    }
+  });
+
+  // Optional: show a “submitting” message
+  document.getElementById('appForm').addEventListener('submit', () => {
+    statusEl.textContent = "Submitting…";
+    statusEl.className = "status";
+  });
+</script>
+</body>
+</html>
